@@ -18,7 +18,7 @@ export const createtable = (columnsArray, dataArray, tableId) => {
   }
 
   createTableHeader(tableElement, columnsArray);
-  createTableBody(tableReference, dataArray, columnsArray);
+  createTableBody(tableElement, dataArray, columnsArray);
 };
 
 function createTableHeader(tableReference, columnsArray) {
@@ -55,9 +55,10 @@ function createTableBody(tableReference, tableItems, columnsArray) {
     const tableRow = document.createElement("tr");
 
     for (const tableColumn of columnsArray) {
-      tableRow.innerHTML += /*html*/ `<td class='text-center'>${
+      const formatFn = tableColumn.format ?? ((info) => info);
+      tableRow.innerHTML += /*html*/ `<td class='text-center'>${formatFn(
         tableItem[tableColumn.accessor]
-      }</td>`;
+      )}</td>`;
     }
     tableBodyReference.appendChild(tableRow);
   }

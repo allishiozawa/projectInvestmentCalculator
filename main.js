@@ -1,6 +1,6 @@
 import { generateReturnsArray } from "./src/investmentGoals";
 import { Chart } from "chart.js/auto";
-import { createtable } from "";
+import { createtable } from "./src/table";
 
 const finalMoneyChart = document.getElementById("final-money-distribution");
 const progressionChart = document.getElementById("progression");
@@ -11,15 +11,31 @@ let doughnutChartReference = {};
 let progressionChartReference = {};
 
 const columnsArray = [
-  { columnLabel: "Total Amount Invested", accessor: "investedAmount" },
-  { columnLabel: "Monthly Return", accessor: "interestReturns" },
-  { columnLabel: "Total Return", accessor: "totalInterestReturns" },
   { columnLabel: "Month", accessor: "month" },
-  { columnLabel: "Total Amount", accessor: "totalAmount" },
+  {
+    columnLabel: "Total Amount Invested",
+    accessor: "investedAmount",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: "Monthly Return",
+    accessor: "interestReturns",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: "Total Return",
+    accessor: "totalInterestReturns",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
+  {
+    columnLabel: "Total Amount",
+    accessor: "totalAmount",
+    format: (numberInfo) => formatCurrency(numberInfo),
+  },
 ];
 
 function formatCurrency(value) {
-  return value.toFixed(2);
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 function renderProgression(evt) {
@@ -115,6 +131,8 @@ function renderProgression(evt) {
   //       },
   //     },
   //   });
+
+  createtable(columnsArray, returnsArray, "results-table");
 }
 
 function isObjectEmpty(obj) {
@@ -182,6 +200,6 @@ for (const formElement of form) {
   }
 }
 
-//form.addEventListener("submit", renderProgression);
-calculateButton.addEventListener("click", renderProgression);
+form.addEventListener("submit", renderProgression);
+//calculateButton.addEventListener("click", renderProgression);
 clearFormButton.addEventListener("click", clearForm);
