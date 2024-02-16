@@ -179,8 +179,8 @@ function validateInput(evt) {
   const inputValue = evt.target.value.replace(",", ".");
 
   if (
-    isNaN(inputValue) ||
-    (Number(inputValue) <= 0 && !parentElement.classList.contains("error"))
+    !parentElement.classList.contains("error") &&
+    (isNaN(inputValue) || Number(inputValue) <= 0)
   ) {
     //<p class="text-red-500">Insert numeric value greater than Zero "0"</p>
     const errorTextElement = document.createElement("p");
